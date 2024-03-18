@@ -1,0 +1,24 @@
+from collections.abc import Callable
+import time
+from threading import Thread
+from time import sleep
+from typing import Iterable, Mapping
+
+class Train(Thread):
+    def __init__(self, pri):
+        Thread.__init__(self)
+        self.pri = pri
+
+    def run(self):
+        for i in range(20):
+            sleep(1.0 * self.pri)
+            print(" Thread with priority: ", self.pri)
+
+w1 = Train(1.0)
+w2 = Train(0.75)
+w3 = Train(0.5)
+start = time.time()
+w1.start()
+w2.start()
+w3.start()
+end = time.time()
