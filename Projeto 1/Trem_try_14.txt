@@ -1,0 +1,35 @@
+import threading
+import time
+import random
+
+class Cruzamento:
+    def __init__(self):
+        self.semaforo = threading.Semaphore()
+
+class Trem(threading.Thread): 
+    def __init__(self, nome, prioridade, cruzamento):
+        threading.Thread.__init__(self)
+        self.nome = nome
+        self.prioridade = prioridade
+        self.cruzamento = cruzamento
+
+
+    def run(self): 
+        while True:
+            if self.prioridade == 'alta': 
+                sleep_time = 0.5
+            elif self.prioridade == 'media': 
+                sleep_time = 0.75
+            else: # baixa                
+                sleep_time = 1
+            
+            time.sleep(sleep_time)
+            print(f'{self.nome} (Prioridade {self.prioridade}) esta se aproximando do cruzamento.')
+            with self.cruzamento.semaforo:
+                print(f'{self.nome} esta cruzando o cruzamento.\n')
+                time.sleep(1)
+            print(f'{self.nome} cruzou o cruzamento.\n')
+cruzamento = Cruzamento()
+prioridades = ['alta', 'media', 'baixa']
+for i in range(10):
+        Trem(f'Trem{i}', random.choice(prioridades), cruzamento).start()
