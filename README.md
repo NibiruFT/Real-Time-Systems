@@ -11,6 +11,6 @@ Sistemas operacionais de tempo real ou RTOS (Real Time Operating Systems) são u
 
 ## Projetos
 
-- [Projeto 1](https://github.com/NibiruFT/CPU-MIPS/tree/main/Sprint%201): Threads
-- [Projeto 2](https://github.com/NibiruFT/CPU-MIPS/tree/main/Sprint%201): Executivo Cíclico
+- [Projeto 1](https://github.com/NibiruFT/Sistemas-em-Tempo-Real/tree/main/Projeto%201): Threads
+- [Projeto 2]([https://github.com/NibiruFT/CPU-MIPS/tree/main/Sprint%201](https://github.com/NibiruFT/CPU-MIPS/tree/main/Sprint%201)): Executivo Cíclico
 
