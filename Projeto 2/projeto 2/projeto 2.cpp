@@ -17,7 +17,6 @@ struct Tarefa {
 };
 
 int mdc(int a, int b) {
-    
     int temp;
     while (b != 0) {
         temp = b;
@@ -51,14 +50,9 @@ bool compararPorTempoExecucao(const Tarefa& a, const Tarefa& b) {
     return a.tempo_execucao < b.tempo_execucao;
 }
 
-bool compararPorPrioridade(const Tarefa& a, const Tarefa& b) {
-    return a.prioridade < b.prioridade;
-}
-
 bool compararPorTaxaPeriodicidade(const Tarefa& a, const Tarefa& b) {
     return (1.0 / a.periodo) > (1.0 / b.periodo);
 }
-
 
 int escolherHeuristica(const std::vector<Tarefa>& tarefas) {
     float taxa_periodicidade_media = 0;
@@ -73,7 +67,7 @@ int escolherHeuristica(const std::vector<Tarefa>& tarefas) {
         return 1; // HRF
 }
 
-void imprimirEscalonamento(std::vector<Tarefa>& tarefas, int ciclo_primario, int ciclo_secundario, int heuristica) {
+void imprimirEscalonamento(const std::vector<Tarefa>& tarefas, int ciclo_primario, int ciclo_secundario, int heuristica) {
     std::cout << "Escalonamento Sugerido (Heuristica: ";
     if (heuristica == 0)
         std::cout << "Menor Tempo de Execucao Primeiro - SETF):\n";
@@ -83,10 +77,6 @@ void imprimirEscalonamento(std::vector<Tarefa>& tarefas, int ciclo_primario, int
     std::cout << "----------------------------------------------------------------------\n";
 
     int num_ciclos = ciclo_primario / ciclo_secundario;
-
-    // Ordenando as tarefas por taxa de periodicidade se a heurística for HRF
-    if (heuristica == 1)
-        std::sort(tarefas.begin(), tarefas.end(), compararPorTaxaPeriodicidade);
 
     for (int ciclo = 0; ciclo < num_ciclos; ciclo++) {
         std::cout << "Ciclo " << ciclo + 1 << ":\n";
@@ -100,10 +90,18 @@ void imprimirEscalonamento(std::vector<Tarefa>& tarefas, int ciclo_primario, int
     std::cout << "\n";
 }
 
+void imprimirResumo(int total_ciclos, int total_intercambios, double utilizacao_cpu) {
+    std::cout << "Resumo:\n";
+    std::cout << "-------\n";
+    std::cout << "Total de Ciclos: " << total_ciclos << "\n";
+    std::cout << "Total de Intercambios de Tarefa por Ciclo: " << total_intercambios << "\n";
+    std::cout << "Utilizacao da CPU: " << utilizacao_cpu * 100 << "%\n";
+}
+
 int main() {
-    
+
     std::locale::global(std::locale(""));
-    std::ifstream arquivo("tarefas.json");
+    std::ifstream arquivo("tarefas2.json");
     if (!arquivo.is_open()) {
         std::cerr << "Nao foi possível abrir o arquivo.\n";
         return 1;
@@ -119,17 +117,26 @@ int main() {
         t.periodo = tarefa_json["periodo"];
         t.tempo_execucao = tarefa_json["tempo_execucao"];
         t.prioridade = tarefa_json["prioridade"];
+        if (t.tempo_execucao > t.periodo) {  //VERIFICA SE A TAREFA É ESCALONAVEL
+            std::cout << "" << t.id << " nao escalonavel\n";
+            exit(1);
+        }
         tarefas.push_back(t);
     }
 
     arquivo.close();
+
+    if (tarefas.empty()) {
+        std::cerr << "Nenhuma tarefa escalonável encontrada.\n";
+        return 1;
+    }
 
     // Calculando tempos de ciclo
     int ciclo_primario = calcularCicloPrimario(tarefas);
     int ciclo_secundario = calcularCicloSecundario(tarefas);
 
     // Escolhendo a heurística apropriada
-    int heuristica = 1;
+    int heuristica = escolherHeuristica(tarefas);
 
     // Ordenando as tarefas de acordo com a heurística escolhida
     if (heuristica == 0)
@@ -145,6 +152,14 @@ int main() {
 
     // Imprimindo o escalonamento sugerido
     imprimirEscalonamento(tarefas, ciclo_primario, ciclo_secundario, heuristica);
+
+    // Imprimindo o resumo
+    int num_ciclos = ciclo_primario / ciclo_secundario;
+    int num_intercambios = tarefas.size();
+    double utilizacao_cpu = (static_cast<double>(num_intercambios) / num_ciclos);
+    imprimirResumo(num_ciclos, num_intercambios, utilizacao_cpu);
+
+
 
     return 0;
 }
