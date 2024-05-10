@@ -101,7 +101,7 @@ void imprimirResumo(int total_ciclos, int total_intercambios, double utilizacao_
 int main() {
 
     std::locale::global(std::locale(""));
-    std::ifstream arquivo("tarefas2.json");
+    std::ifstream arquivo("tarefas.json");
     if (!arquivo.is_open()) {
         std::cerr << "Nao foi possível abrir o arquivo.\n";
         return 1;
