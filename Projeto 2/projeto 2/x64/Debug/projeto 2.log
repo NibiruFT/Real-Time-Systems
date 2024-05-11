@@ -1,4 +1,4 @@
 ﻿  projeto 2.cpp
-C:\Users\Window 10\Downloads\Projeto 2\projeto 2\projeto 2.cpp(60,41): warning C4244: '+=': conversão de 'double' para 'float', possível perda de dados
-C:\Users\Window 10\Downloads\Projeto 2\projeto 2\projeto 2.cpp(158,26): warning C4267: 'inicializando': conversão de 'size_t' para 'int', possível perda de dados
-  projeto 2.vcxproj -> C:\Users\Window 10\Downloads\Projeto 2\x64\Debug\projeto 2.exe
+C:\Users\franc\source\repos\projeto 2\projeto 2\projeto 2.cpp(60,41): warning C4244: '+=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\franc\source\repos\projeto 2\projeto 2\projeto 2.cpp(183,26): warning C4267: 'inicializando': conversão de 'size_t' para 'int', possível perda de dados
+  projeto 2.vcxproj -> C:\Users\franc\source\repos\projeto 2\x64\Debug\projeto 2.exe

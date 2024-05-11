@@ -68,6 +68,34 @@ int escolherHeuristica(const std::vector<Tarefa>& tarefas) {
 }
 
 void imprimirEscalonamento(const std::vector<Tarefa>& tarefas, int ciclo_primario, int ciclo_secundario, int heuristica) {
+    
+    int num_ciclos = ciclo_primario / ciclo_secundario;
+    int i = 0;
+    int maiortempoexec = 0;
+    for (int ciclo = 0; ciclo < num_ciclos; ciclo++) {
+        for (const auto& tarefa : tarefas) {
+
+           
+
+            for (i = 0; i < num_ciclos; i++) { //encontrando o maior tempo de execução
+                if (tarefa.tempo_execucao > maiortempoexec)
+                    maiortempoexec = tarefa.tempo_execucao;
+            }
+
+            //REQUISITO 3: Deve existir um frame entre o release-time (𝑡𝑡′) e o deadline (𝑡𝑡′ + 𝐷𝐷𝑖𝑖) de todos os jobs 
+            if ((2 * ciclo_secundario - mdc(ciclo_secundario, tarefa.periodo)) > tarefa.periodo) {
+                std::cout << " \nNAO ESCALONAVEL\n";
+                exit(1);
+            }
+
+        }
+        if ((ciclo_secundario < maiortempoexec)) {  //REQUISITO 1 -  o ciclo secundario deve ser maior ou igual ao maior tempo de execução da tarefa
+            std::cout << " \nNAO ESCALONAVEL\n";
+            exit(1);
+        }
+
+    }
+
     std::cout << "Escalonamento Sugerido (Heuristica: ";
     if (heuristica == 0)
         std::cout << "Menor Tempo de Execucao Primeiro - SETF):\n";
@@ -76,21 +104,22 @@ void imprimirEscalonamento(const std::vector<Tarefa>& tarefas, int ciclo_primari
 
     std::cout << "----------------------------------------------------------------------\n";
 
-    int num_ciclos = ciclo_primario / ciclo_secundario;
-
     for (int ciclo = 0; ciclo < num_ciclos; ciclo++) {
         std::cout << "Ciclo " << ciclo + 1 << ":\n";
         for (const auto& tarefa : tarefas) {
+
+            //REQUISITO 2: O tamanho de frames candidatos devem caber igualmente dentro de um ciclo maior
             if (ciclo % (tarefa.periodo / ciclo_secundario) == 0) {
                 std::cout << "  - " << tarefa.id << ": tempo de execucao = " << tarefa.tempo_execucao
                     << ", periodo = " << tarefa.periodo << ", prioridade = " << tarefa.prioridade << "\n";
             }
         }
     }
-    std::cout << "\n";
-}
+ }
+
 
 void imprimirResumo(int total_ciclos, int total_intercambios, double utilizacao_cpu) {
+    std::cout << "\n";
     std::cout << "Resumo:\n";
     std::cout << "-------\n";
     std::cout << "Total de Ciclos: " << total_ciclos << "\n";
@@ -117,10 +146,6 @@ int main() {
         t.periodo = tarefa_json["periodo"];
         t.tempo_execucao = tarefa_json["tempo_execucao"];
         t.prioridade = tarefa_json["prioridade"];
-        if (t.tempo_execucao > t.periodo) {  //VERIFICA SE A TAREFA É ESCALONAVEL
-            std::cout << "" << t.id << " nao escalonavel\n";
-            exit(1);
-        }
         tarefas.push_back(t);
     }
 

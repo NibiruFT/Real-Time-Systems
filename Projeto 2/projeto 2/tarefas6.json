@@ -8,7 +8,7 @@
     },
     {
       "id": "Tarefa2",
-      "periodo": 300,
+      "periodo": 200,
       "tempo_execucao": 30,
       "prioridade": 2
     },
