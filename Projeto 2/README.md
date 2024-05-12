@@ -58,4 +58,4 @@ O sistema foi implementado em C++. Além disso, o sistema suporta a heurística 
 
 > **Descrição Geral**: Criar um sistema executivo cíclico.
 > 
-> **Nota 1**: [Video](https://youtu.be/PVLUpZMb-Ac) 
+> **Nota 1**: [Video](https://www.youtube.com/watch?v=yLACSbBbxA4) 
