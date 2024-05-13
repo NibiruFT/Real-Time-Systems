@@ -1,2 +1,0 @@
-C:\Users\franc\source\repos\projeto3STR\projeto3STR\FreeRTOS\Demo\WIN32-MSVC\Debug\RTOSDemo.exe
-C:\Users\Window 10\Downloads\Projeto 3\projeto3STR\FreeRTOS\Demo\WIN32-MSVC\Debug\RTOSDemo.exe
