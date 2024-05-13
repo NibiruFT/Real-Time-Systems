@@ -15,4 +15,4 @@ Sistemas operacionais de tempo real ou RTOS (Real Time Operating Systems) são u
 
 - [Projeto 1](https://github.com/NibiruFT/Sistemas-em-Tempo-Real/tree/main/Projeto%201): Threads
 - [Projeto 2](https://github.com/NibiruFT/Sistemas-em-Tempo-Real/tree/main/Projeto%202): Executivo Cíclico
-
+- [Projeto 3](https://github.com/NibiruFT/Real-Time-Systems/tree/main/Projeto%203): FreeRTOS - Simulação de cruzamento de trilhos de trem
